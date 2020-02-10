@@ -6,7 +6,6 @@ using CarRentApi.Controllers.BaseData;
 using CarRentApi.Model;
 using CarRentApi.Repositories;
 using CarRentApi.Repositories.Database;
-using CarRentRestAPI.Demo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

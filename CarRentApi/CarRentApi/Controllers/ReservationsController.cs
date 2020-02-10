@@ -80,6 +80,9 @@ namespace CarRentApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
         {
+            Car car = new Car();
+            car = _context.Cars.Find(reservation.CarId);
+            reservation.Costs = reservation.RentalDays * car.CostsPerDay;
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
 

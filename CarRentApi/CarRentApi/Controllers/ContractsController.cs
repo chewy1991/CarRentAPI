@@ -80,6 +80,11 @@ namespace CarRentApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Contract>> PostContract(Contract contract)
         {
+            Reservation reservation = new Reservation();
+            reservation = _context.Reservations.Find(contract.ReservationId);
+            reservation.State = ReservationState.contracted;
+            _context.Reservations.Update(reservation);
+            _context.SaveChanges();
             _context.Contracts.Add(contract);
             await _context.SaveChangesAsync();
 
