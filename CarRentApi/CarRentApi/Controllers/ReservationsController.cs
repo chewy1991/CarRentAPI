@@ -82,7 +82,9 @@ namespace CarRentApi.Controllers
         {
             Car car = new Car();
             car = _context.Cars.Find(reservation.CarId);
-            reservation.Costs = reservation.RentalDays * car.CostsPerDay;
+            CarClass carclass = new CarClass();
+            carclass = _context.CarClasses.Find(car.ClassId);
+            reservation.Costs = reservation.RentalDays * carclass.CostsPerDay;
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
 

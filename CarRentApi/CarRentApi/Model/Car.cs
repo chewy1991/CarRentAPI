@@ -12,7 +12,6 @@ namespace CarRentApi.Model
         public int ClassId { get; set; }
         public int TypeId { get; set; }
         public decimal kilometer { get; set; }
-        public decimal CostsPerDay { get; set; }
         public int horsepower { get; set; }
         public int RegistrationYear { get; set; }
     }
