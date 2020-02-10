@@ -41,6 +41,27 @@ namespace CarRentApi.Controllers
 
             return customer;
         }
+        // GET: api/Customers/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Customer>> GetCustomer(string Lastname)
+        {
+            Customer customer = null;
+            var customerlist = await _context.Customers.ToListAsync();
+            foreach (var customers in customerlist)
+            {
+                if(!customer.Lastname.Equals(Lastname))
+                    continue;
+
+                customer = customers;
+            }
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return customer;
+        }
 
         // PUT: api/Customers/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
