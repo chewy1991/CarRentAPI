@@ -62,20 +62,17 @@ namespace CarRentRestAPI.Demo
 
             var classA = new CarClass
             {
-                Class = "Einfachklasse",
-                CostsPerDay = 102.20M
+                Class = "Einfachklasse"
             };
 
             var classB = new CarClass
             {
-                Class = "Mittelklasse",
-                CostsPerDay = 180.50M
+                Class = "Mittelklasse"
             };
 
             var classC = new CarClass
             {
-                Class = "Luxusklasse",
-                CostsPerDay = 250.99M
+                Class = "Luxusklasse"
             };
 
             classA = await ClassRepository.AddAsync(classA);
@@ -138,7 +135,7 @@ namespace CarRentRestAPI.Demo
                 ClassId = classA.Id,
                 horsepower = 112,
                 kilometer = 216535,
-                CostsPerDay = classA.CostsPerDay,
+                CostsPerDay = 100m,
                 RegistrationYear = 2000,
                 TypeId = typeA.Id
             };
@@ -149,7 +146,7 @@ namespace CarRentRestAPI.Demo
                 ClassId = classB.Id,
                 horsepower = 212,
                 kilometer = 116535,
-                CostsPerDay = classB.CostsPerDay,
+                CostsPerDay = 120m,
                 RegistrationYear = 2010,
                 TypeId = typeB.Id
             };
@@ -160,7 +157,7 @@ namespace CarRentRestAPI.Demo
                 ClassId = classC.Id,
                 horsepower = 312,
                 kilometer = 16535,
-                CostsPerDay = classC.CostsPerDay,
+                CostsPerDay = 140.50m,
                 RegistrationYear = 2018,
                 TypeId = typeC.Id
             };

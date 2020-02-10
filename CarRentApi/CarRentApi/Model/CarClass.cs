@@ -9,7 +9,6 @@ namespace CarRentApi.Model
     {
         public int Id { get; set; }
         public string Class { get; set;}
-        public decimal CostsPerDay { get; set; }
     }
 
     

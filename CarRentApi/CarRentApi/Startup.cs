@@ -33,32 +33,7 @@ namespace CarRentApi
         {
             services.AddControllers();
             services.AddDbContext<CarRentDBContext>(opt => opt.UseInMemoryDatabase("CarRent"));
-            if (Configuration.GetValue<string>("UseDbProvider").ToLower() == "entityframework")
-            {
-                services.AddDbContext<CarRentDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-                #region Database Repositories
-                services.AddScoped<IRepository<Customer>, DatabaseRepository<Customer>>();
-                services.AddScoped<IRepository<Car>, DatabaseRepository<Car>>();
-                services.AddScoped<IRepository<CarBrand>, DatabaseRepository<CarBrand>>();
-                services.AddScoped<IRepository<CarType>, DatabaseRepository<CarType>>();
-                services.AddScoped<IRepository<CarClass>, DatabaseRepository<CarClass>>();
-                services.AddScoped<IRepository<Reservation>, DatabaseRepository<Reservation>>();
-                services.AddScoped<IRepository<Contract>, DatabaseRepository<Contract>>();
-                #endregion
-            }
-            else
-            {
-                #region In Memory Repositories
-                services.AddSingleton<IRepository<Customer>, InMemoryRepository<Customer>>();
-                services.AddSingleton<IRepository<Car>, InMemoryRepository<Car>>();
-                services.AddSingleton<IRepository<CarBrand>, InMemoryRepository<CarBrand>>();
-                services.AddSingleton<IRepository<CarType>, InMemoryRepository<CarType>>();
-                services.AddSingleton<IRepository<CarClass>, InMemoryRepository<CarClass>>();
-                services.AddSingleton<IRepository<Reservation>, InMemoryRepository<Reservation>>();
-                services.AddSingleton<IRepository<Contract>, InMemoryRepository<Contract>>();
-                #endregion
-            }
-            services.AddSingleton<DemoInitializer>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
