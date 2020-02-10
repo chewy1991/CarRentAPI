@@ -8,7 +8,7 @@ namespace zbw.car.rent.api.Repositories.InMemory
 {
     public class InMemoryRepository<T>: IRepository<T> where T : IDBTable
     {
-        private List<T> _objs = new List<T>();
+        private readonly List<T> _objs = new List<T>();
 
         public Task<List<T>> GetAllAsync()
         {

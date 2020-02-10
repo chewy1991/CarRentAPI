@@ -11,7 +11,7 @@ namespace CarRentApi.Repositories.Database
     {
         public CarRentDBContext(DbContextOptions<CarRentDBContext> options) : base(options)
         {
-
+            
         }
 
         public DbSet<CarBrand> CarBrands { get; set; }

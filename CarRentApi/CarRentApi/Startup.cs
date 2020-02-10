@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarRentApi.Controllers.BaseData;
 using CarRentApi.Model;
 using CarRentApi.Repositories;
 using CarRentApi.Repositories.Database;
@@ -33,7 +34,7 @@ namespace CarRentApi
         {
             services.AddControllers();
             services.AddDbContext<CarRentDBContext>(opt => opt.UseInMemoryDatabase("CarRent"));
-
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
