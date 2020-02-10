@@ -23,23 +23,32 @@ namespace CarRentApi.Controllers
 
         // GET: api/Contracts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contract>>> GetContracts()
+        public List<ContractComplete> GetContracts()
         {
-            return await _context.Contracts.ToListAsync();
+            var contractlist = _context.Contracts.ToList();
+            List<ContractComplete> concomplete = new List<ContractComplete>();
+
+            foreach (Contract con in contractlist)
+            {
+                concomplete.Add(new ContractComplete(_context,con));
+            }
+
+            return concomplete;
         }
 
         // GET: api/Contracts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Contract>> GetContract(int id)
+        public ContractComplete GetContract(int id)
         {
-            var contract = await _context.Contracts.FindAsync(id);
+            var contract =  _context.Contracts.Find(id);
 
             if (contract == null)
             {
-                return NotFound();
+                return null;
             }
+            ContractComplete complcontract = new ContractComplete(_context,contract);
 
-            return contract;
+            return complcontract;
         }
 
         // PUT: api/Contracts/5
