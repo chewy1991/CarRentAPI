@@ -19,7 +19,7 @@ steps:
   inputs:
     command: 'build'
     projects: 'CarRentApi/CarRentApi/CarRentApi.csproj'
-    arguments: '$(buildConfiguration)'
+    arguments: '$(buildConfiguration) , Release'
     
 - task: DotNetCoreCLI@2
   inputs:
