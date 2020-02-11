@@ -29,7 +29,7 @@ steps:
   inputs:
     command: 'publish'
     projects: 'CarRentApi/CarRentApi/CarRentApi.csproj'
-    arguments: '$(buildConfiguration), Release'
+    
 
           
     
