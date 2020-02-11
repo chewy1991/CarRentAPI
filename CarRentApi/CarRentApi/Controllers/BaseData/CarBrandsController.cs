@@ -23,20 +23,20 @@ namespace CarRentApi.Controllers.BaseData
 
         // GET: api/CarBrands
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarBrand>>> GetCarBrands()
+        public List<CarBrand> GetCarBrands()
         {
-            return await _context.CarBrands.ToListAsync();
+            return  _context.CarBrands.ToList();
         }
 
         // GET: api/CarBrands/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CarBrand>> GetCarBrand(int id)
+        public CarBrand GetCarBrand(int id)
         {
-            var carBrand = await _context.CarBrands.FindAsync(id);
+            var carBrand =  _context.CarBrands.Find(id);
 
             if (carBrand == null)
             {
-                return NotFound();
+                return null;
             }
 
             return carBrand;
@@ -80,26 +80,36 @@ namespace CarRentApi.Controllers.BaseData
         [HttpPost]
         public async Task<ActionResult<CarBrand>> PostCarBrand(CarBrand carBrand)
         {
-            _context.CarBrands.Add(carBrand);
-            await _context.SaveChangesAsync();
+            if (!CarBrandExists(carBrand.BrandName))
+            {
+                _context.CarBrands.Add(carBrand);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCarBrand", new { id = carBrand.Id }, carBrand);
+                return CreatedAtAction("GetCarBrand", new { id = carBrand.Id }, carBrand);
+            }
+
+            return NoContent();
         }
 
         // DELETE: api/CarBrands/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<CarBrand>> DeleteCarBrand(int id)
+        public CarBrand DeleteCarBrand(int id)
         {
-            var carBrand = await _context.CarBrands.FindAsync(id);
+            var carBrand =  _context.CarBrands.Find(id);
             if (carBrand == null)
             {
-                return NotFound();
+                return null;
             }
 
             _context.CarBrands.Remove(carBrand);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return carBrand;
+        }
+        
+        private bool CarBrandExists(string brandname)
+        {
+            return _context.CarBrands.Any(e => e.BrandName == brandname);
         }
 
         private bool CarBrandExists(int id)

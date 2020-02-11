@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using zbw.car.rent.api.Repositories.InMemory;
+using CarRentApi.ExampleData;
 
 namespace CarRentApi
 {
@@ -33,7 +34,13 @@ namespace CarRentApi
         {
             services.AddControllers();
             services.AddDbContext<CarRentDBContext>(opt => opt.UseInMemoryDatabase("CarRent"));
+            DbContextOptionsBuilder<CarRentDBContext>  builder = new DbContextOptionsBuilder<CarRentDBContext>();
+            builder.UseInMemoryDatabase("CarRent");
+            DbContextOptions<CarRentDBContext> options = builder.Options;
             
+            CarRentDBContext carrent = new CarRentDBContext(options);
+
+            ExampleData.ExampleData.InitTestData(carrent);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

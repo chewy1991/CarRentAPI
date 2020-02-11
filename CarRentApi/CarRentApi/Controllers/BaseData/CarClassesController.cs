@@ -23,20 +23,20 @@ namespace CarRentApi.Controllers.BaseData
 
         // GET: api/CarClasses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarClass>>> GetCarClasses()
+        public  List<CarClass> GetCarClasses()
         {
-            return await _context.CarClasses.ToListAsync();
+            return  _context.CarClasses.ToList();
         }
 
         // GET: api/CarClasses/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CarClass>> GetCarClass(int id)
+        public CarClass GetCarClass(int id)
         {
-            var carClass = await _context.CarClasses.FindAsync(id);
+            var carClass =  _context.CarClasses.Find(id);
 
             if (carClass == null)
             {
-                return NotFound();
+                return null;
             }
 
             return carClass;
@@ -80,28 +80,37 @@ namespace CarRentApi.Controllers.BaseData
         [HttpPost]
         public async Task<ActionResult<CarClass>> PostCarClass(CarClass carClass)
         {
-            _context.CarClasses.Add(carClass);
-            await _context.SaveChangesAsync();
+            if (!CarClassExists(carClass.Class))
+            {
+                _context.CarClasses.Add(carClass);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCarClass", new { id = carClass.Id }, carClass);
+                return CreatedAtAction("GetCarClass", new { id = carClass.Id }, carClass);
+            }
+
+            return NoContent();
         }
 
         // DELETE: api/CarClasses/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<CarClass>> DeleteCarClass(int id)
+        public CarClass DeleteCarClass(int id)
         {
-            var carClass = await _context.CarClasses.FindAsync(id);
+            var carClass =  _context.CarClasses.Find(id);
             if (carClass == null)
             {
-                return NotFound();
+                return null;
             }
 
             _context.CarClasses.Remove(carClass);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             return carClass;
         }
 
+        private bool CarClassExists(string carclass)
+        {
+            return _context.CarClasses.Any(e => e.Class.Equals(carclass));
+        }
         private bool CarClassExists(int id)
         {
             return _context.CarClasses.Any(e => e.Id == id);

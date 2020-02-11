@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentApi", "CarRentApi\CarRentApi.csproj", "{D6029A46-9060-402A-95BF-063D17A6F5FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRentApi", "CarRentApi\CarRentApi.csproj", "{D6029A46-9060-402A-95BF-063D17A6F5FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRentApi.test", "CarRentApi.test\CarRentApi.test.csproj", "{691A81F9-42F6-4EA3-8FAF-B7027F30833C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D6029A46-9060-402A-95BF-063D17A6F5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6029A46-9060-402A-95BF-063D17A6F5FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6029A46-9060-402A-95BF-063D17A6F5FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691A81F9-42F6-4EA3-8FAF-B7027F30833C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691A81F9-42F6-4EA3-8FAF-B7027F30833C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691A81F9-42F6-4EA3-8FAF-B7027F30833C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691A81F9-42F6-4EA3-8FAF-B7027F30833C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
