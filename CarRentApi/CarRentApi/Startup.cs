@@ -15,7 +15,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using zbw.car.rent.api.Repositories.InMemory;
 using CarRentApi.ExampleData;
 
 namespace CarRentApi

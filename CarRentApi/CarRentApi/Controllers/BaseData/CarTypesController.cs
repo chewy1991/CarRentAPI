@@ -23,20 +23,20 @@ namespace CarRentApi.Controllers.BaseData
 
         // GET: api/CarTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CarType>>> GetCarTypes()
+        public List<CarType> GetCarTypes()
         {
-            return await _context.CarTypes.ToListAsync();
+            return  _context.CarTypes.ToList();
         }
 
         // GET: api/CarTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CarType>> GetCarType(int id)
+        public CarType GetCarType(int id)
         {
-            var carType = await _context.CarTypes.FindAsync(id);
+            var carType =  _context.CarTypes.Find(id);
 
             if (carType == null)
             {
-                return NotFound();
+                return null;
             }
 
             return carType;
@@ -80,10 +80,15 @@ namespace CarRentApi.Controllers.BaseData
         [HttpPost]
         public async Task<ActionResult<CarType>> PostCarType(CarType carType)
         {
-            _context.CarTypes.Add(carType);
-            await _context.SaveChangesAsync();
+            if (!CarTypeExists(carType.carType))
+            {
+                _context.CarTypes.Add(carType);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCarType", new { id = carType.Id }, carType);
+                return CreatedAtAction("GetCarType", new { id = carType.Id }, carType);
+            }
+
+            return NoContent();
         }
 
         // DELETE: api/CarTypes/5
@@ -101,7 +106,10 @@ namespace CarRentApi.Controllers.BaseData
 
             return carType;
         }
-
+        private bool CarTypeExists(string cartype)
+        {
+            return _context.CarTypes.Any(e => e.carType.Equals(cartype));
+        }
         private bool CarTypeExists(int id)
         {
             return _context.CarTypes.Any(e => e.Id == id);

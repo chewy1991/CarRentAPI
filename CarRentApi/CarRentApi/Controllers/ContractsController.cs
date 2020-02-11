@@ -89,15 +89,21 @@ namespace CarRentApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Contract>> PostContract(Contract contract)
         {
-            Reservation reservation = new Reservation();
-            reservation = _context.Reservations.Find(contract.ReservationId);
-            reservation.State = ReservationState.contracted;
-            _context.Reservations.Update(reservation);
-            _context.SaveChanges();
-            _context.Contracts.Add(contract);
-            await _context.SaveChangesAsync();
+            if (!ContractExists(contract.ReservationId))
+            {
+                Reservation reservation = new Reservation();
+                reservation = _context.Reservations.Find(contract.ReservationId);
+                reservation.State = ReservationState.contracted;
+                _context.Reservations.Update(reservation);
+                _context.SaveChanges();
+                _context.Contracts.Add(contract);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetContract", new { id = contract.Id }, contract);
+                return CreatedAtAction("GetContract", new { id = contract.Id }, contract);
+            }
+
+            return NoContent();
+
         }
 
         // DELETE: api/Contracts/5
@@ -116,9 +122,10 @@ namespace CarRentApi.Controllers
             return contract;
         }
 
-        private bool ContractExists(int id)
+
+        private bool ContractExists(int ReservationId)
         {
-            return _context.Contracts.Any(e => e.Id == id);
+            return _context.Contracts.Any(e => e.ReservationId == ReservationId);
         }
     }
 }
