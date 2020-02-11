@@ -87,7 +87,7 @@ namespace CarRentApi.Controllers
             reservation.Costs = reservation.RentalDays * carclass.CostsPerDay;
             _context.Reservations.Add(reservation);
             await _context.SaveChangesAsync();
-            //test
+            
             return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
         }
 
