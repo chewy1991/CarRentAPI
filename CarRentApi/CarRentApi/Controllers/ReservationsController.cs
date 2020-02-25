@@ -23,20 +23,20 @@ namespace CarRentApi.Controllers
 
         // GET: api/Reservations
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reservation>>> GetReservations()
+        public List<Reservation> GetReservations()
         {
-            return await _context.Reservations.ToListAsync();
+            return _context.Reservations.ToList();
         }
 
         // GET: api/Reservations/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Reservation>> GetReservation(int id)
+        public Reservation GetReservation(int id)
         {
-            var reservation = await _context.Reservations.FindAsync(id);
+            var reservation =  _context.Reservations.Find(id);
 
             if (reservation == null)
             {
-                return NotFound();
+                return null;
             }
 
             return reservation;
@@ -80,15 +80,20 @@ namespace CarRentApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
         {
-            Car car = new Car();
-            car = _context.Cars.Find(reservation.CarId);
-            CarClass carclass = new CarClass();
-            carclass = _context.CarClasses.Find(car.ClassId);
-            reservation.Costs = reservation.RentalDays * carclass.CostsPerDay;
-            _context.Reservations.Add(reservation);
-            await _context.SaveChangesAsync();
-            
-            return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
+            if (!ReservationExists(reservation))
+            {
+                Car car = new Car();
+                car = _context.Cars.Find(reservation.CarId);
+                CarClass carclass = new CarClass();
+                carclass = _context.CarClasses.Find(car.ClassId);
+                reservation.Costs = reservation.RentalDays * carclass.CostsPerDay;
+                _context.Reservations.Add(reservation);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
+            }
+
+            return NoContent();
         }
 
         // DELETE: api/Reservations/5
@@ -106,7 +111,10 @@ namespace CarRentApi.Controllers
 
             return reservation;
         }
-
+        private bool ReservationExists(Reservation reservation)
+        {
+            return _context.Reservations.Any(e => e.CarId == reservation.CarId) && _context.Reservations.Any(e => e.Costs == reservation.Costs) && _context.Reservations.Any(e => e.CustomerId == reservation.CustomerId) && _context.Reservations.Any(e => e.RentalDays == reservation.RentalDays) && _context.Reservations.Any(e => e.RentalDate == reservation.RentalDate) && _context.Reservations.Any(e => e.ReservationDate == reservation.ReservationDate) && _context.Reservations.Any(e => e.State == reservation.State);
+        }
         private bool ReservationExists(int id)
         {
             return _context.Reservations.Any(e => e.Id == id);

@@ -23,20 +23,20 @@ namespace CarRentApi.Controllers
 
         // GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public List<Customer> GetCustomers()
         {
-            return await _context.Customers.ToListAsync();
+            return _context.Customers.ToList();
         }
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public Customer GetCustomer(int id)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer =  _context.Customers.Find(id);
 
             if (customer == null)
             {
-                return NotFound();
+                return null;
             }
 
             return customer;
@@ -101,10 +101,16 @@ namespace CarRentApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
         {
-            _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            if (!CustomerExists(customer))
+            {
+                _context.Customers.Add(customer);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+                return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);
+            }
+
+            return NoContent();
+
         }
 
         // DELETE: api/Customers/5
@@ -121,6 +127,11 @@ namespace CarRentApi.Controllers
             await _context.SaveChangesAsync();
 
             return customer;
+        }
+
+        private bool CustomerExists(Customer customer)
+        {
+            return _context.Customers.Any(e => e.Adress.Equals(customer.Adress)) && _context.Customers.Any(e => e.EMailAdress.Equals(customer.EMailAdress)) && _context.Customers.Any(e => e.Lastname.Equals(customer.Lastname)) && _context.Customers.Any(e => e.Firstname.Equals(customer.Firstname)) && _context.Customers.Any(e => e.Telephonenumber == customer.Telephonenumber);
         }
 
         private bool CustomerExists(int id)

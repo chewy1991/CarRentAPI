@@ -23,20 +23,20 @@ namespace CarRentApi.Controllers
 
         // GET: api/Cars
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Car>>> GetCars()
+        public List<Car> GetCars()
         {
-            return await _context.Cars.ToListAsync();
+            return _context.Cars.ToList();
         }
 
         // GET: api/Cars/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Car>> GetCar(int id)
+        public Car GetCar(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
+            var car =  _context.Cars.Find(id);
 
             if (car == null)
             {
-                return NotFound();
+                return null;
             }
 
             return car;
@@ -80,10 +80,16 @@ namespace CarRentApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Car>> PostCar(Car car)
         {
-            _context.Cars.Add(car);
-            await _context.SaveChangesAsync();
+            if (!CarExists(car))
+            {
+                _context.Cars.Add(car);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetCar", new { id = car.Id }, car);
+                return CreatedAtAction("GetCar", new { id = car.Id }, car);
+            }
+
+            return NoContent();
+
         }
 
         // DELETE: api/Cars/5
@@ -101,7 +107,10 @@ namespace CarRentApi.Controllers
 
             return car;
         }
-
+        private bool CarExists(Car car)
+        {
+            return _context.Cars.Any(e =>e.BrandId == car.BrandId) && _context.Cars.Any(e => e.ClassId == car.ClassId) && _context.Cars.Any(e => e.TypeId == car.TypeId) && _context.Cars.Any(e => e.RegistrationYear == car.RegistrationYear) && _context.Cars.Any(e => e.horsepower == car.horsepower) && _context.Cars.Any(e => e.kilometer == car.kilometer);
+        }
         private bool CarExists(int id)
         {
             return _context.Cars.Any(e => e.Id == id);
