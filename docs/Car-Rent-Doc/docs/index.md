@@ -2,6 +2,11 @@
 
 ![BigPicture](./images/BigPicture.JPG)
 
+# Aufgabenstellung
+## Zielsetzung
+
+Es soll ein Autovermietungssystem "Car Rent" erstellt werden. Das System soll aus einem Serverteil, welcher über eine RestApi erreicht werden kann, und aus einem optionalen Webclient bestehen.
+
 # Context Diagram
 
 ![ContextDiagram](./images/ContextDiagram.JPG)
@@ -23,7 +28,7 @@ Der Kunde kann ein Auto auswählen und eine Reservation tätigen. Bei Abholung d
 # Domain Diagram
 ![DomainDiagram](./images/DomainModel.JPG)
 
-#Use Cases
+# Use Cases
 
 UC1: Der Sachbearbeiter kann Kunden erfassen, löschen bearbeiten und mittels Kundennummer oder Name suchen.
 
@@ -36,3 +41,21 @@ UC4: Die Klasse bestimmt den Tagespreis.
 UC5: Bei der Reservation kann ein Auto aus einer bestimmten Klasse gewählt werden. Durch die Angabe der Reservationstage wird der Gesamtpreis berechnet. Der Reservationsstatus wird für den ausgewählten Reservationszeitraum auf reserviert gesetzt.
 
 UC6: Beim erstellen des Mietvertrags, wird der Reservationsstatus auf Contracted gewechselt.
+
+# RestApi
+
+## Daten übergabewerte
+Die Daten werden gemäss dem Domaindiagramm als json-Datei von der RestApi zurückgegeben. Bei Fremdschlüssel werden die Id's der als fremdschlüsselübergebenen Tabelle zurückgegeben.
+
+### Ausnahme
+Die Rückgabe des Contracts unterscheidet sich von den anderen. Hier werden die gejointen Werte zurück gegeben und nicht nur die Fremdschlüssel Id.
+
+## Datenübergabe
+Die Daten werden von der RestApi in Form von json-Dateien übernommen. Um die Tabellen zu verknüpfen müssen den entsprechenden Fremdschlüsselfelder die jeweiligen Id's der Daten aus der jeweiligen Tabelle übergeben werden.
+
+## Datenbank
+Die Datenbank wurde in Form eines Entity Frameworks umgesetzt. Das Entity Framework läuft als InMemoryDatenbank, wodurch es die Daten nur während die RestApi läuft hält. Dadurch werden beim Start der Api mehrere Beispieldaten übergeben.
+
+# Continuous Integration
+
+Die Continuous Integration wurde mittels einer Azure Pipeline umgesetzt. Diese Pipeline startet bei jedem Push in den Master-Branch von Git einen automatischen Build und führt die Tests durch.

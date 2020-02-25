@@ -53,15 +53,27 @@
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
         <li class="main active"><a href="#car-rent-api-documentation">Car Rent Api Documentation</a></li>
+        <li class="main "><a href="#aufgabenstellung">Aufgabenstellung</a></li>
+            <li><a href="#zielsetzung">Zielsetzung</a></li>
         <li class="main "><a href="#context-diagram">Context Diagram</a></li>
         <li class="main "><a href="#container-diagram">Container Diagram</a></li>
         <li class="main "><a href="#component-diagram">Component Diagram</a></li>
+        <li class="main "><a href="#domain-diagram">Domain Diagram</a></li>
+        <li class="main "><a href="#use-cases">Use Cases</a></li>
+        <li class="main "><a href="#restapi">RestApi</a></li>
+            <li><a href="#daten-ubergabewerte">Daten übergabewerte</a></li>
+            <li><a href="#datenubergabe">Datenübergabe</a></li>
+            <li><a href="#datenbank">Datenbank</a></li>
+        <li class="main "><a href="#continuous-integration">Continuous Integration</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
 <h1 id="car-rent-api-documentation">Car Rent Api Documentation</h1>
 <p><img alt="BigPicture" src="images/BigPicture.JPG" /></p>
+<h1 id="aufgabenstellung">Aufgabenstellung</h1>
+<h2 id="zielsetzung">Zielsetzung</h2>
+<p>Es soll ein Autovermietungssystem "Car Rent" erstellt werden. Das System soll aus einem Serverteil, welcher über eine RestApi erreicht werden kann, und aus einem optionalen Webclient bestehen.</p>
 <h1 id="context-diagram">Context Diagram</h1>
 <p><img alt="ContextDiagram" src="images/ContextDiagram.JPG" /></p>
 <p>Der Kunde kann bei einer Reservation ein Auto aus einer bestimmten Klasse wählen. Bei der Reservation muss er die Mietdauer und das Anfangsdatum angeben. 
@@ -71,7 +83,27 @@ Der Sachbearbeiter kann den Fuhrpark verwalten. Zudem kann er die Kunden im Syst
 <p>Die Webaplikation macht API calls zur RestApi über welche Datenbankoperationen ausgeführt werden. Je nach Aufruf werden Daten geschrieben oder gelesen.</p>
 <h1 id="component-diagram">Component Diagram</h1>
 <p><img alt="ContextDiagram" src="images/ComponentDiagram.JPG" /></p>
-<p>Der Kunde kann ein Auto auswählen und eine Reservation tätigen. Bei Abholung des Wagens muss der Kunde einen Vertrag unterschreiben. Die Reservation beinhaltet das ausgewählte Fahrzeug, das Reservationsdatum, die Mietdauer, die Gesamtkosten und der Mietzeitpunkt. </p></div>
+<p>Der Kunde kann ein Auto auswählen und eine Reservation tätigen. Bei Abholung des Wagens muss der Kunde einen Vertrag unterschreiben. Die Reservation beinhaltet das ausgewählte Fahrzeug, das Reservationsdatum, die Mietdauer, die Gesamtkosten und der Mietzeitpunkt und den Reservationsstatus. Bei der Vertragserstellung ändert der Reservationsstatus zu Contracted. </p>
+<h1 id="domain-diagram">Domain Diagram</h1>
+<p><img alt="DomainDiagram" src="images/DomainModel.JPG" /></p>
+<h1 id="use-cases">Use Cases</h1>
+<p>UC1: Der Sachbearbeiter kann Kunden erfassen, löschen bearbeiten und mittels Kundennummer oder Name suchen.</p>
+<p>UC2: Der Sachbearbeiter kann Autos verwalten und suchen.</p>
+<p>UC3: Jedes Auto besitzt eine Angabe bezüglich Klasse, Typ und Marke. Jedes Auto kann zudem eindeutig Identifiziert werden.</p>
+<p>UC4: Die Klasse bestimmt den Tagespreis.</p>
+<p>UC5: Bei der Reservation kann ein Auto aus einer bestimmten Klasse gewählt werden. Durch die Angabe der Reservationstage wird der Gesamtpreis berechnet. Der Reservationsstatus wird für den ausgewählten Reservationszeitraum auf reserviert gesetzt.</p>
+<p>UC6: Beim erstellen des Mietvertrags, wird der Reservationsstatus auf Contracted gewechselt.</p>
+<h1 id="restapi">RestApi</h1>
+<h2 id="daten-ubergabewerte">Daten übergabewerte</h2>
+<p>Die Daten werden gemäss dem Domaindiagramm als json-Datei von der RestApi zurückgegeben. Bei Fremdschlüssel werden die Id's der als fremdschlüsselübergebenen Tabelle zurückgegeben.</p>
+<h3 id="ausnahme">Ausnahme</h3>
+<p>Die Rückgabe des Contracts unterscheidet sich von den anderen. Hier werden die gejointen Werte zurück gegeben und nicht nur die Fremdschlüssel Id.</p>
+<h2 id="datenubergabe">Datenübergabe</h2>
+<p>Die Daten werden von der RestApi in Form von json-Dateien übernommen. Um die Tabellen zu verknüpfen müssen den entsprechenden Fremdschlüsselfelder die jeweiligen Id's der Daten aus der jeweiligen Tabelle übergeben werden.</p>
+<h2 id="datenbank">Datenbank</h2>
+<p>Die Datenbank wurde in Form eines Entity Frameworks umgesetzt. Das Entity Framework läuft als InMemoryDatenbank, wodurch es die Daten nur während die RestApi läuft hält. Dadurch werden beim Start der Api mehrere Beispieldaten übergeben.</p>
+<h1 id="continuous-integration">Continuous Integration</h1>
+<p>Die Continuous Integration wurde mittels einer Azure Pipeline umgesetzt. Diese Pipeline startet bei jedem Push in den Master-Branch von Git einen automatischen Build und führt die Tests durch.</p></div>
         </div>
 
         <footer class="col-md-12">
@@ -154,5 +186,5 @@ Der Sachbearbeiter kann den Fuhrpark verwalten. Zudem kann er die Kunden im Syst
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2020-02-03 16:40:27
+Build Date UTC : 2020-02-18 16:22:52
 -->
