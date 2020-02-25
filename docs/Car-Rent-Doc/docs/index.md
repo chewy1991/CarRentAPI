@@ -56,6 +56,23 @@ Die Daten werden von der RestApi in Form von json-Dateien übernommen. Um die Ta
 ## Datenbank
 Die Datenbank wurde in Form eines Entity Frameworks umgesetzt. Das Entity Framework läuft als InMemoryDatenbank, wodurch es die Daten nur während die RestApi läuft hält. Dadurch werden beim Start der Api mehrere Beispieldaten übergeben.
 
+## Controller
+Die Controller sind alle auf die gleiche Art aufgebaut und bieten die Methoden Get, Put, Post und Delete an. Die einzigen Controller, welche sich zu den anderen Unterscheiden ist der Reservationscontroller und Contractcontroller.
+
+### Reservationcontroller
+Der Reservationcontroller überprüft vor einem Post den Reservationsstatus des ausgewählten Fahrzeugs. Die Reservation kann nur ausgelöst werden, wenn das Fahrzeug zu der Reservationszeit nicht reserviert ist.
+
+### Contractcontroller
+Der Contractcontroller unterscheidet sich zu den anderen Controllern, indem er bei einem Get eine gejointe Klasse der Foreign Keys zurückgibt.
+
 # Continuous Integration
 
 Die Continuous Integration wurde mittels einer Azure Pipeline umgesetzt. Diese Pipeline startet bei jedem Push in den Master-Branch von Git einen automatischen Build und führt die Tests durch.
+
+# Test
+
+## Tests
+Es werden ausschliesslich Integrationstests durchgeführt, da keine wirkliche Businesslogik vorhanden ist. Die einzelnen Tests überprüfen, ob von den Controllern die richtigen Daten ausgegeben, eingefügt geupdated oder gelöscht werden. 
+
+## Testplan
+Die Tests werden bei jedem Commit in den Master-Branch von der Azure-Pipeline ausgelöst.

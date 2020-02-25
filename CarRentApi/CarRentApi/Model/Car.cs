@@ -15,4 +15,5 @@ namespace CarRentApi.Model
         public int horsepower { get; set; }
         public int RegistrationYear { get; set; }
     }
+
 }

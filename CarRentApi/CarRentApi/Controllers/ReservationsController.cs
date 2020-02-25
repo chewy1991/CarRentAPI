@@ -82,15 +82,37 @@ namespace CarRentApi.Controllers
         {
             if (!ReservationExists(reservation))
             {
-                Car car = new Car();
-                car = _context.Cars.Find(reservation.CarId);
-                CarClass carclass = new CarClass();
-                carclass = _context.CarClasses.Find(car.ClassId);
-                reservation.Costs = reservation.RentalDays * carclass.CostsPerDay;
-                _context.Reservations.Add(reservation);
-                await _context.SaveChangesAsync();
+                List<Reservation> reslist = _context.Reservations.ToList();
+                bool carreserved = false;
+                foreach (var res in reslist)
+                {
+                    if (reservation.CarId == res.CarId)
+                    {
+                        DateTime resend = res.RentalDate;
+                        resend = resend.AddDays(res.RentalDays);
+                        DateTime reservationEnd = reservation.RentalDate;
+                        reservationEnd = reservationEnd.AddDays(reservation.RentalDays);
+                        if (reservation.RentalDate.Date >= res.RentalDate.Date && reservation.RentalDate <= resend || reservationEnd.Date >= res.RentalDate.Date && reservationEnd <= resend)
+                        {
+                            carreserved = true;
+                            break;
+                        }
+                    }
+                    
+                }
+                if (!carreserved)
+                {
+                    CarClass carclass = new CarClass();
+                    Car car = _context.Cars.Find(reservation.CarId);
+                    carclass = _context.CarClasses.Find(car.ClassId);
+                    reservation.Costs = reservation.RentalDays * carclass.CostsPerDay;
+                    if (reservation.State != ReservationState.pending)
+                        reservation.State = ReservationState.pending;
+                    _context.Reservations.Add(reservation);
+                    await _context.SaveChangesAsync();
 
-                return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
+                    return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
+                }
             }
 
             return NoContent();

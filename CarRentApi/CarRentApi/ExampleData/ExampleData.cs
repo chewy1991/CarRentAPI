@@ -57,8 +57,8 @@ namespace CarRentApi.ExampleData
             context.Customers.AddRange(customerlist);
             context.SaveChanges();
 
-            var reservation = new Reservation(){CarId = 1,CustomerId = 1,RentalDate = new DateTime(2020,02,11),ReservationDate = new DateTime(2020,01,01),RentalDays = 8,State = ReservationState.reserved};
-            var reservation2 = new Reservation() { CarId = 2, CustomerId = 2, RentalDate = new DateTime(2020, 02, 11), ReservationDate = new DateTime(2020, 01, 01), RentalDays = 8, State = ReservationState.reserved };
+            var reservation = new Reservation(){CarId = 1,CustomerId = 1,RentalDate = new DateTime(2020,02,11),ReservationDate = new DateTime(2020,01,01),RentalDays = 8,State = ReservationState.pending};
+            var reservation2 = new Reservation() { CarId = 2, CustomerId = 2, RentalDate = new DateTime(2020, 02, 11), ReservationDate = new DateTime(2020, 01, 01), RentalDays = 8, State = ReservationState.pending };
             var car = context.Cars.Find(reservation.CarId);
             var carclass = context.CarClasses.Find(car.ClassId);
             reservation.Costs = reservation.RentalDays * carclass.CostsPerDay;
